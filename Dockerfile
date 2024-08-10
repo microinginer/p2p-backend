@@ -8,20 +8,12 @@ RUN apt-get update && apt-get install -y \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Аргументы для конфигурации coturn
-ARG LISTENING_PORT=3478
-ARG FINGERPRINT=true
-ARG REALM=yourdomain.com
-ARG NO_TLS=true
-ARG NO_DTLS=true
-
-# Генерация конфигурационного файла turnserver
-RUN echo "listening-port=${LISTENING_PORT}" > /etc/turnserver.conf && \
-    echo "fingerprint" >> /etc/turnserver.conf && \
-    echo "lt-cred-mech" >> /etc/turnserver.conf && \
-    echo "realm=${REALM}" >> /etc/turnserver.conf && \
-    if [ "$NO_TLS" = true ]; then echo "no-tls" >> /etc/turnserver.conf; fi && \
-    if [ "$NO_DTLS" = true ]; then echo "no-dtls" >> /etc/turnserver.conf; fi
+# Генерация конфигурационного файла turnserver с указанными настройками
+RUN echo "fingerprint" > /etc/turnserver.conf && \
+    echo "listening-port=3478" >> /etc/turnserver.conf && \
+    echo "listening-ip=0.0.0.0" >> /etc/turnserver.conf && \
+    echo "no-auth" >> /etc/turnserver.conf && \
+    echo "stun-only" >> /etc/turnserver.conf
 
 # Создаем рабочую директорию для Node.js приложения
 WORKDIR /app
@@ -35,13 +27,12 @@ RUN npm install --production
 # Копируем исходный код приложения
 COPY . .
 
-# Устанавливаем переменную окружения для порта Node.js
-ENV PORT=${NODE_PORT}
+# Устанавливаем переменную окружения для порта Node.js (например, 3000)
+ENV PORT=3000
 
 # Открываем порты для STUN сервера и Node.js приложения
-EXPOSE ${NODE_PORT}
+EXPOSE 3000
 EXPOSE 3478/udp
-EXPOSE 5349/tcp
 
 # Запускаем coturn и Node.js приложение
 CMD ["sh", "-c", "turnserver -c /etc/turnserver.conf --no-cli & node server.js"]
