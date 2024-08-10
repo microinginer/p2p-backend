@@ -1,0 +1,25 @@
+{
+  "name": "p2p-chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-chat": "node server.js create-chat",
+    "create-chat-with-pin": "node server.js create-chat --withPin"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5",
+    "sqlite3": "^5.1.7",
+    "uuid": "^8.3.2",
+    "webrtc": "^1.14.1",
+    "yargs": "^17.7.2"
+  }
+}
