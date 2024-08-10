@@ -46,6 +46,22 @@ This project serves as the backend for the **Personal Anonymous Chats** applicat
 
    The server will be running at `http://localhost:3000`. You can use this URL to interact with the API or connect your frontend application to the backend.
 
+## Docker Setup
+1. **Docker Setup:**
+
+   Pull the Docker image from Docker Hub:
+
+    ```sh
+    docker pull inginer/p2p-backend:latest
+    ```
+
+   Run the Docker container with the necessary ports:
+
+    ```sh
+    docker run -p 3000:3000 -p 3478:3478 inginer/p2p-backend:latest
+    ```
+
+
 ## API Endpoints
 
 ### 1. **Check Chat**
