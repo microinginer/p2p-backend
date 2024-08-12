@@ -25,7 +25,7 @@ app.use(express.json());
 app.use('/api', apiRoutes);
 
 io.on('connection', (socket) => {
-    socket.on('join-room', async (roomId, userId, pin, username) => {
+    socket.on('join-room', async (roomId, userId, username, pin) => {
         const connection = await createConnection();
 
         const rows = await new Promise((resolve, reject) => {
@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
         socket.to(roomId).emit('user-connected', {userId, username});
 
         chatUtils.addUser(roomId, {userId, username, socketId: socket.id});
-        io.to(roomId).emit('update-users', chatUtils.getUsers(roomId).map(user => user.username || user.userId));
+        io.to(roomId).emit('update-users', chatUtils.getUsers(roomId));
 
         socket.on('send-chat-message', (data) => {
             const {encryptedMessage, username} = data;

@@ -89,7 +89,7 @@ This project serves as the backend for the **Personal Anonymous Chats** applicat
 
   ```json
   {
-      "withPin": true/false
+      "withPin": "true/false"
   }
   ```
 
